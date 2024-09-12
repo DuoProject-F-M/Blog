@@ -33,7 +33,7 @@ var object={
     return object
 }
 
-obj.updateComment=function (id,key,val) {
+obj.updatePost=function (id,key,val) {
     for (let i = 0; i < this.user.posts.length; i++) {
         if (this.user.posts[i].id===id) {
             this.user.posts[i][key]=val
@@ -88,13 +88,6 @@ obj.search=function (tag) {
     return newarr
 }
 
-
-obj.displayPost=function (id) {
-    
-}
-obj.displayAll=function (arr) {
-    
-}
 
 return obj
     }
