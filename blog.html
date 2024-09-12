@@ -3,15 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="blog.css">
     <title>Document</title>
 </head>
 <body>
-    <input type="text" id="txt">
-    <button id="search">search</button>
+    <div id="header">
+        <div id="logo">
+         <img  id="logo_img" src="./images/logo.jpg" alt="Logo">
+         <h4>Blog</h4> 
+        </div>
+            <div id="txtt">
+                <input type="text" id="txt">
+            <button id="search">search</button>
+        </div>
+            <button id="signup">Join</button>
+       
+    </div>
+
+    <div id="images">
+        <img src='./images/pic4.jpg' id="img" alt="image">
+    </div>
+
+    <div class="login-page">
+        <div class="form">
+          <form class="register-form">
+            <input id="create-username" type="text" placeholder="username"/>
+            <input id="create-password" type="text" placeholder="password"/>
+
+            <button name="create-button" type="button" id="create-button">create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+          </form>
+          <form class="login-form">
+            <input id="login-username" type="text" placeholder="username" name="login-username"/>
+            <input id="login-password" type="text" placeholder="password" name="login-password"/>
+            <button name="login-button" type="button" id="login-button">login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+          </form>
+        </div>
+      </div>
+
+
+   
     <div id="posts">
         <button id="buttonpost">Add post</button>
         <button id="buttoncomment">Add comment</button>
     </div>
+    <form class="form" id="post_form">
+        <input id="title" type="text" placeholder="Title" name="title"/>
+        <input id="description" type="text" placeholder="Description" name="description"/>
+        <input id="url" type="text" placeholder="URL" name="url"/>
+        <input id="tag" type="text" placeholder="Tag" name="tag"/>
+        <button name="submit" type="button" id="submit">Submit</button>
+      </form>
 
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="blog.js"></script>
