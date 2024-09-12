@@ -194,8 +194,12 @@ color: rgb(255, 255, 255);
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    
   }
 .postimg{
     width: 80%;
     height: 70%;
+}
+#tags{
+  color:rgb(2, 167, 249)
 }
