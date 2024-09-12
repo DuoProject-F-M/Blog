@@ -149,5 +149,8 @@ return obj
                 displayPosts(arr)
             })
 
-            
-          
+ $(".login-page").hide()
+ $("#signup").on("click",function(){
+    $(".login-page").show()
+    
+ })
