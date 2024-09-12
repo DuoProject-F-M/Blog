@@ -1,3 +1,14 @@
+$('#post_form').hide()
+var images=['./images/pic2.jpg','./images/pic3.jpg','./images/pic4.jpg']
+var ii=0
+function toggleImage() {
+    var arr=images
+    var img= $('#img')
+      ii = (ii + 1) % arr.length;
+      $(img).attr('src',arr[ii])
+    }
+setInterval(toggleImage,1000)
+
 function generateId() {
     var id=0
     return function () {
@@ -18,9 +29,12 @@ function makeUser(userName,password) {
 
     function Use(user) {
 var obj={
-    user:user
+    user:user,
+    list:[]
 }
-
+obj.addUser=function (user) {
+    this.list.push(user)
+}
 obj.addPost=function (title,description,url,tag) {
 var object={
     id:id(),
@@ -33,7 +47,7 @@ var object={
     return object
 }
 
-obj.updateComment=function (id,key,val) {
+obj.updatePost=function (id,key,val) {
     for (let i = 0; i < this.user.posts.length; i++) {
         if (this.user.posts[i].id===id) {
             this.user.posts[i][key]=val
@@ -87,24 +101,25 @@ obj.search=function (tag) {
     }
     return newarr
 }
-
-
-obj.displayPost=function (id) {
-    
-}
-obj.displayAll=function (arr) {
-    
+ 
+obj.check=function (user) {
+    for (let i = 0; i < this.list.length; i++) {
+        if (this.list.includes(user.userName)&&this.list.includes(user.password)) {
+        return true
+        }
+        }
+   return false
 }
 
 return obj
     }
 
     function displayPost(post) {
-        $("#posts").append(`<div id='${post.id}'>
+        $("#posts").append(`<div class='form1' id='${post.id}'>
           <h2>${post.title}</h2>
           <h3>${post.description}</h3>
           <h4>${post.tag}</h4>
-          <img id="image-${post.id}" src="${post.url}"/>
+          <img class='postimg' id="image-${post.id}" src="${post.url}"/>
           </div>`);
     }
 
@@ -127,30 +142,140 @@ return obj
                   }
             }
 
-            $('#buttonpost').on('click',function () {
-                test.addPost('title','des','url','tag')
-                displayPosts(me.posts)
-            })
-
-            $('#buttoncomment').on('click',function () {
-               
-                test.addComment(0,'commm')
-                console.log(me.comments);
-                displayComment(me.comments)
-                
-            })
-            
+           
             $('#search').on('click',function () {
-                $('#posts').empty()
                 var text=$('#txt').val()
                 console.log(text);
                var arr= test.search(text)
-               console.log(arr);
+               if (arr.length) {
+                console.log(arr);
+                $('#posts').empty()
                 displayPosts(arr)
+               }
             })
 
  $(".login-page").hide()
  $("#signup").on("click",function(){
-    $(".login-page").show()
-    
+    $(".login-page").toggle()
+    $('#posts').hide()
  })
+
+
+
+ // Look at console///////////////////////////////////////////////////////////////////
+
+	
+  var loggedin=false
+	$('#login-button').on('click', function() {
+		var loginUsernameEntry = $("#login-username").val();
+		var loginPasswordEntry = $("#login-password").val();
+        for (let i = 0; i < test.list.length; i++) {
+            if (test.list[i].userName===(loginUsernameEntry)&&test.list[i].password===(loginPasswordEntry)) {
+                console.log("Logged In");
+                $(".login-page").hide()
+                $('#posts').show()
+                loggedin=true
+                console.log('btn',loggedin);
+                
+
+            } else {
+                alert ("Login Falied")
+            };
+        }
+       
+	});
+  
+	$('#create-button').on('click', function() {
+		var createUsernameEntry = $("#create-username").val();
+		var createPasswordEntry = $("#create-password").val();
+    var createUsernameValid = false;
+    var createPasswordValid = false;
+    var createUsernameObject = $("#create-username");
+    var createPasswordObject = $("#create-password");
+  
+    var validate = /^\s*[a-zA-Z0-9,\s]+\s*$/;
+   
+    if(!validate.test(createUsernameEntry) || (createUsernameEntry).length == 0) {
+      $(createUsernameObject).addClass("error")
+      $(createUsernameObject).val("No special characters or spaces.")
+    } else {
+      createUsernameValid = true;
+      var createUsername = $(createUsernameObject).val();
+    }
+    
+    if(!validate.test(createPasswordEntry) || (createPasswordEntry).length == 0) {
+      $(createPasswordObject).addClass("error");
+      $(createPasswordObject).val("No special characters or spaces.");
+    } else {
+      createPasswordValid = true;
+      var createPassword = $(createPasswordObject).val();
+    }
+    
+   
+      
+    $(createUsernameObject).on('click', function () {
+      $(this).val("");  
+      $(this).removeClass("error");
+    });
+    
+    $(createPasswordObject).on('click', function () {
+      $(this).val("");  
+      $(this).removeClass("error");
+    });
+    
+
+
+    var user= makeUser(createUsername, createPassword)
+    test.addUser(user)
+    
+		if(createUsernameValid && createPasswordValid ) {
+      $('form').animate({
+			height: "toggle",
+			opacity: "toggle"
+		}, "fast");
+    }
+	});
+  
+	$('.message a').on('click', function() {
+		$('form').animate({
+			height: "toggle",
+			opacity: "toggle"
+		}, "fast");
+	});
+
+        $("#buttonpost").on("click",function(){   
+            if (!loggedin) {
+                $(".login-page").show()
+            }
+            else {
+        $('#post_form').show()
+                displayPosts(me.posts)
+            }
+         })
+         $("#buttoncomment").on("click",function(){
+            if (!loggedin) {
+                $(".login-page").show()
+            }
+            else{
+                test.addComment(0,'commm')
+                displayComment(me.comments)
+            }
+         })
+     
+         var admin=makeUser('admin','admin')
+         test.addUser(admin)
+///////////////////////////////////////////////////////////////////////////////////////////
+         $('#submit').on('click', function() {
+            var title = $("#title").val();
+            var description = $("#description").val();
+            var url = $("#url").val();
+            var tag = $("#tag").val();
+       
+        if((description).length && (tag).length && (title).length) {
+            test.addPost(title,description,url,tag)
+            displayPosts(me.posts)
+        } else {
+            alert ('all fields must be filled')
+        }
+        $('#post_form').hide()
+    })

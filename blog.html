@@ -7,13 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="searchbar">
-        <h1> Blog</h1>
-        <img id="logo" src="" alt="Logo">
-        
-        <input type="text" id="txt">
-        <button id="search">search</button>
-        <button id="signup">  Sign up  </button>
+    <div id="header">
+        <div id="logo">
+         <img  id="logo_img" src="./images/logo.jpg" alt="Logo">
+         <h4>Blog</h4> 
+        </div>
+            <div id="txtt">
+                <input type="text" id="txt">
+            <button id="search">search</button>
+        </div>
+            <button id="signup">Join</button>
+       
+    </div>
+
+    <div id="images">
+        <img src='./images/pic4.jpg' id="img" alt="image">
     </div>
 
     <div class="login-page">
@@ -21,7 +29,7 @@
           <form class="register-form">
             <input id="create-username" type="text" placeholder="username"/>
             <input id="create-password" type="text" placeholder="password"/>
-            <input id="create-email" type="text" placeholder="email address"/>
+
             <button name="create-button" type="button" id="create-button">create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
           </form>
@@ -40,6 +48,13 @@
         <button id="buttonpost">Add post</button>
         <button id="buttoncomment">Add comment</button>
     </div>
+    <form class="form" id="post_form">
+        <input id="title" type="text" placeholder="Title" name="title"/>
+        <input id="description" type="text" placeholder="Description" name="description"/>
+        <input id="url" type="text" placeholder="URL" name="url"/>
+        <input id="tag" type="text" placeholder="Tag" name="tag"/>
+        <button name="submit" type="button" id="submit">Submit</button>
+      </form>
 
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="blog.js"></script>
