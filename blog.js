@@ -1,15 +1,23 @@
 
-var arrayOfPosts=[{title:"Digital detox",
+function generateId() {
+    var id=0
+    return function () {
+        return id++
+    }
+}
+var id=generateId()
+
+var arrayOfPosts=[{id: id(),title:"Digital detox",
     description:"A digital detox involves taking a break from screens to reduce stress and improve mental health. Signs you need one include fatigue and irritability. Planning involves setting screen time limits and creating tech-free zones. Benefits include better sleep, increased clarity, and stronger real-world connections. To maintain balance, use apps to track screen time, set digital boundaries, and engage in offline activities.",
     url:"https://images-ext-1.discordapp.net/external/pi5dbOUkyAprLrlQzOfKpvJMX1fT1GlonVbz8A_OMrA/https/i.pinimg.com/564x/99/36/87/9936872a8513a8db2115d056eeec2057.jpg?format=webp&width=585&height=585",
     tag:["Digital"," Detox"]},
 
-    {title:"The Healing Power of Creativity: How Creative Activities Enhance Self-Care and Personal Growth",
+    {id: id(),title:"The Healing Power of Creativity: How Creative Activities Enhance Self-Care and Personal Growth",
 description:"Creative activities like painting or writing significantly boost mental health by reducing stress and providing emotional expression. They enhance problem-solving skills and encourage personal development through new challenges. Completing creative projects builds self-confidence and resilience. Incorporating creativity into your routine not only supports mental well-being but also promotes personal growth and self-expression",
 url:"https://images-ext-1.discordapp.net/external/mS34ARLThGoavWnuNf7tQMMBNmQILVX_rlQt4ySOwHM/https/i.pinimg.com/736x/0f/10/e3/0f10e336e58dc92df2225384d8168f0d.jpg?format=webp&width=585&height=585",
 tag:["Healing"," Power"]},
 
-{title:"Unlocking Your Potential: Key Principles of a Growth Mindset",
+{id: id(),title:"Unlocking Your Potential: Key Principles of a Growth Mindset",
 description:"A growth mindset, introduced by Carol Dweck, is based on the belief that abilities can be developed through effort and learning. Embracing challenges is crucial, as it turns obstacles into growth opportunities. Learning from criticism is another key aspect, using feedback to improve rather than seeing it as a personal attack. Persevering through setbacks is important for maintaining motivation and viewing failure as temporary. Celebrating effort over results encourages a focus on the learning process, not just outcomes. Finally, cultivating curiosity drives continuous self-improvement and a love for learning.",
 url:"https://images-ext-1.discordapp.net/external/a0Sel0jL5TB_qf2PPkGzGPFSuehJG8PQnEdKjWq1D-o/https/i.pinimg.com/564x/e9/9d/59/e99d5954973fa28d816b219d39d771ed.jpg?format=webp&width=585&height=585",
 tag:["Mindset"," Growth"]}
@@ -26,15 +34,7 @@ function toggleImage() {
       ii = (ii + 1) % arr.length;
       $(img).attr('src',arr[ii])
     }
-setInterval(toggleImage,1000)
-
-function generateId() {
-    var id=0
-    return function () {
-        return id++
-    }
-}
-var id=generateId()
+setInterval(toggleImage,2000)
 
 function makeUser(userName,password) {
     var objj={
@@ -142,13 +142,13 @@ return obj
            <button id='comment-${post.id}' class="buttoncomment">Add comment</button>
            <div class="hcomment">
            <input id="c${post.id}" type="text" placeholder="Comment..." name="c"/>
-           <button name="submitc" type="button" id="submitc">Submit</button>
+           <button name="submitc" type="button" class="submitc">Submit</button>
              </div>
 
        
           </div>`);
 
-          $("#submitc").on("click",function(){
+          $(".submitc").on("click",function(){
 
             if (!loggedin) {
                 $(".login-page").show()
@@ -158,6 +158,8 @@ return obj
                 
             }
           var newc=$(`#c${post.id}`).val()
+          console.log("newc: ",post,"arrofcomm",me.comments,"id post: ",post.id);
+          
           test.addComment(post.id,newc)
                   displayComment(me.comments)
                })
@@ -169,12 +171,12 @@ return obj
         var me=makeUser('fatma','malek')
         var test=Use(me)
 
-        function displayComment(comment) {
-            console.log(comment[comment.length-1].comment);
+        function displayComment(arrOfComments) {
+            console.log(arrOfComments[arrOfComments.length-1].comment);
             
-            $(`#${comment[comment.length-1].id}`).append(`<div id='${comment[comment.length-1].idc}'>
-              <h2>${test.user.userName}</h2>
-              <h2>${comment[comment.length-1].comment}</h2>
+            $(`#${arrOfComments[arrOfComments.length-1].id}`).append(`<div id='${arrOfComments[arrOfComments.length-1].idc}'>
+              <h2>${test.user[user.length-1].userName}</h2>
+              <h2>${arrOfComments[arrOfComments.length-1].comment}</h2>
               </div>`);
         }
 
@@ -202,10 +204,6 @@ return obj
     $(".login-page").toggle()
     $('#posts').hide()
  })
-
-
-
- // Look at console///////////////////////////////////////////////////////////////////
 
 	
   var loggedin=false
@@ -307,7 +305,7 @@ return obj
      
          var admin=makeUser('admin','admin')
          test.addUser(admin)
-///////////////////////////////////////////////////////////////////////////////////////////
+
          $('#submit').on('click', function() {
             var title = $("#title").val();
             var description = $("#description").val();
@@ -316,6 +314,8 @@ return obj
        
         if((description).length && (tag).length && (title).length) {
             test.addPost(title,description,url,tag)
+            console.log(me.posts);
+            
             displayPosts(me.posts)
         } else {
             alert ('all fields must be filled')
